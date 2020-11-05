@@ -7,20 +7,40 @@ public class Main {
     public static void main(String[] args)
     {
 
-        boolean startNewGame = true;
-        Scanner scanner = new Scanner(System.in);
-        while (startNewGame)
-        {
-            guessTheNumberGame();
-            System.out.println();
-            System.out.println("Повторить игру еще раз? 1 – да / 0 – нет");
 
-            int inputedNumber = scanner.nextInt();
-            startNewGame = (inputedNumber==1) ? startNewGame : false;
-        }
+        do{
+          guessTheNumberGame();
+            System.out.println();
+            int startNewGame;
+            do {
+                System.out.println("Повторить игру еще раз? 1 – да / 0 – нет");
+                startNewGame=takeNumberFromConsole();
+            } while (startNewGame!=0 && startNewGame!=1);
+
+            if (startNewGame!=1)
+                break;
+
+        }while (true);
 
         guessTheWordGame();
     }
+
+    public static int takeNumberFromConsole()
+    {
+        do {
+            int inputedNumber;
+            try
+            {
+                Scanner scanner = new Scanner(System.in);
+                inputedNumber = scanner.nextInt();
+                return inputedNumber;
+            } catch (Exception ex) {
+                System.out.println("Допустим ввод только числа");
+            }
+
+        } while (true);
+    }
+
     public static void guessTheNumberGame()
     {
 
@@ -30,17 +50,7 @@ public class Main {
         {
             System.out.println("Попытка "+tryNumber+" из 3. Угадайте число от 0 до 9");
 
-            try
-            {
-                Scanner scanner = new Scanner(System.in);
-                inputedNumber = scanner.nextInt();
-            } catch (Exception ex)
-            {
-                System.out.println("Допустим ввод только числа");
-                tryNumber--;
-                continue;
-            }
-
+            inputedNumber =takeNumberFromConsole();
             if (inputedNumber == randomNumber)
             {
                 System.out.println("Поздравляю! Вы угадали число!");
@@ -61,7 +71,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         String randomWord = words[(int) (Math.random() * 25)];
-        //System.out.println("Выводим слово для отладки " + randomWord);
+        System.out.println();
+        System.out.println("Мы загодали секретное слово! Попробуй угадать!");
         String inputWord;
         do {
             System.out.println("Введите загаданное слово");
